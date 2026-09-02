@@ -416,10 +416,15 @@
         </div>
       </div>
 
-      <form class="glass-panel rounded-3xl p-8 space-y-4" onsubmit="event.preventDefault();">
-        <input type="text" placeholder="Sender Identity" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
-        <input type="email" placeholder="Sender Email" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
-        <textarea rows="4" placeholder="Payload Message..." class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold"></textarea>
+      <!-- Web3Forms Working Form -->
+      <form action="https://api.web3forms.com/submit" method="POST" class="glass-panel rounded-3xl p-8 space-y-4">
+        <!-- Paste your Web3Forms Access Key below -->
+        <input type="hidden" name="access_key" value="444b864e-794e-4232-b0b9-bba9f0ca98f4">
+
+        <input type="text" name="name" placeholder="Sender Identity" required class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <input type="email" name="email" placeholder="Sender Email" required class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <textarea name="message" rows="4" placeholder="Payload Message..." required class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold"></textarea>
+
         <button type="submit" onclick="playAudioTone(1000, 0.1)" class="w-full py-4 bg-gold text-black font-bold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase tracking-wider shadow-[0_0_20px_rgba(201,162,75,0.3)]">
           Transmit Payload
         </button>
@@ -583,7 +588,7 @@
 
     const commands = {
       help: "Available commands: <span class='text-gold'>about</span>, <span class='text-gold'>skills</span>, <span class='text-gold'>projects</span>, <span class='text-gold'>contact</span>, <span class='text-gold'>clear</span>",
-      about: "Hari Charan Boddu — Senior Analyst @ NetEnrich. 3.6 years OpsRamp/K8s/AWS Observability Engineer.",
+      about: "Hari Charan Boddu — Senior Analyst @ NetEnrich. 3+ years OpsRamp/K8s/AWS Observability Engineer.",
       skills: "OpsRamp, Datadog, Kubernetes, Terraform, Ansible, Python, AWS, Azure, Docker, Helm, ServiceNow",
       projects: "1. JoinOnboard Cloud Infrastructure (joinonboard.in)\n2. DOIP (Digital Operations Insights Portal)",
       contact: "Email: haricharanb001@gmail.com | LinkedIn: linkedin.com/in/haricharanb"
