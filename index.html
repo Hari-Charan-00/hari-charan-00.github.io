@@ -1,301 +1,268 @@
-import React, { useState } from 'react';
-import { 
-  Terminal, ShieldCheck, Cpu, Cloud, Server, 
-  Github, Linkedin, Mail, ExternalLink, Activity, ArrowDown 
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari Charan Boddu — Observability & Cloud Infrastructure Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            gold: '#C9A24B',
+            'gold-soft': '#E4C878',
+            bgDark: '#060608',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgDark text-[#ede7da] font-sans antialiased selection:bg-gold selection:text-black">
 
-export default function HariCharanPortfolio() {
-  const [activeRoleIndex, setActiveRoleIndex] = useState(0);
-  
-  const roles = [
-    "OBSERVABILITY ENGINEER",
-    "DEVOPS & AUTOMATION",
-    "CLOUD INFRASTRUCTURE",
-    "KUBERNETES ARCHITECT"
-  ];
+  <!-- Navigation -->
+  <nav class="flex justify-between items-center px-6 md:px-12 py-5 border-b border-white/10 backdrop-blur-xl fixed top-0 w-full z-50 bg-[#060608]/80">
+    <div class="flex items-center space-x-2">
+      <span class="w-2.5 h-2.5 bg-gold rounded-full animate-ping"></span>
+      <span class="font-mono font-bold tracking-tight text-sm md:text-base text-white">HARI CHARAN.</span>
+    </div>
+    <div class="hidden md:flex space-x-8 text-xs font-mono uppercase tracking-widest text-gray-400">
+      <a href="#about" class="hover:text-gold transition">About</a>
+      <a href="#experience" class="hover:text-gold transition">Experience</a>
+      <a href="#skills" class="hover:text-gold transition">Skills</a>
+      <a href="#projects" class="hover:text-gold transition">Projects</a>
+      <a href="#contact" class="hover:text-gold transition">Dispatch</a>
+    </div>
+  </nav>
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
-  return (
-    <div className="min-h-screen bg-[#060608] text-[#ede7da] font-sans selection:bg-[#c9a24b] selection:text-black">
+  <!-- Hero Section -->
+  <section class="min-h-screen flex flex-col justify-between pt-36 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="my-auto">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-gold/10 border border-gold/30 rounded-full text-xs font-mono text-gold-soft mb-6">
+        <span class="w-2 h-2 rounded-full bg-gold"></span>
+        <span>SYSTEM STATUS · ONLINE</span>
+      </div>
       
-      {/* Top Glass Navigation */}
-      <nav className="flex justify-between items-center px-6 md:px-12 py-5 border-b border-white/10 backdrop-blur-xl fixed top-0 w-full z-50 bg-[#060608]/80">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 bg-[#c9a24b] rounded-full animate-ping" />
-          <span className="font-mono font-bold tracking-tight text-sm md:text-base text-white">HARI CHARAN.</span>
-        </div>
-        <div className="hidden md:flex space-x-8 text-xs font-mono uppercase tracking-widest text-gray-400">
-          <a href="#about" className="hover:text-[#c9a24b] transition">About</a>
-          <a href="#experience" className="hover:text-[#c9a24b] transition">Experience</a>
-          <a href="#skills" className="hover:text-[#c9a24b] transition">Skills</a>
-          <a href="#projects" className="hover:text-[#c9a24b] transition">Projects</a>
-          <a href="#contact" className="hover:text-[#c9a24b] transition">Dispatch</a>
-        </div>
-      </nav>
+      <h1 class="text-4xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">
+        HARI CHARAN <br />
+        <span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">
+          BODDU
+        </span>
+      </h1>
 
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-between pt-36 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="my-auto">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#c9a24b]/10 border border-[#c9a24b]/30 rounded-full text-xs font-mono text-[#e4c878] mb-6">
-            <span className="w-2 h-2 rounded-full bg-[#c9a24b]" />
-            <span>SYSTEM STATUS · ONLINE</span>
+      <div class="mt-6 flex items-center space-x-3 font-mono text-sm md:text-lg text-gray-400">
+        <span class="text-gold">$ role --now</span>
+        <span class="text-white font-semibold underline decoration-gold">Observability & Infrastructure Automation Engineer</span>
+      </div>
+
+      <p class="text-gray-400 mt-6 max-w-2xl text-sm md:text-base leading-relaxed">
+        3+ years of professional experience driving end-to-end monitoring lifecycles across complex hybrid-cloud ecosystems (OpsRamp, Datadog, K8s RBAC, Terraform, Ansible, Python)[cite: 2].
+      </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center text-xs font-mono text-gray-500 border-t border-white/10 pt-6 gap-4">
+      <span class="flex items-center gap-2">
+        <i data-lucide="arrow-down" class="w-4 h-4 text-gold"></i> SCROLL TO EXPLORE
+      </span>
+      <span class="px-3 py-1 border border-green-500/30 bg-green-500/10 text-green-400 rounded-full">
+        ● Open to Cloud & DevOps Opportunities[cite: 2]
+      </span>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-gold to-amber-700 flex items-center justify-center font-bold text-black text-2xl mb-4">
+            HC
           </div>
-          
-          <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">
-            HARI CHARAN <br />
-            <span className="bg-gradient-to-r from-[#c9a24b] via-[#e4c878] to-gray-400 bg-clip-text text-transparent">
-              BODDU
-            </span>
-          </h1>
+          <h3 class="text-xl font-bold text-white">Hari Charan Boddu</h3>
+          <p class="text-xs text-gold-soft font-mono mt-1">Senior Analyst @ NetEnrich[cite: 1, 2]</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400 space-y-1 font-mono">
+          <p>📍 Hyderabad / Andhra Pradesh, India[cite: 1, 2]</p>
+          <p>🎓 MCA · Andhra University[cite: 2]</p>
+        </div>
+      </div>
 
-          <div className="mt-6 flex items-center space-x-3 font-mono text-sm md:text-lg text-gray-400">
-            <span className="text-[#c9a24b]">$ role --now</span>
-            <span className="text-white font-semibold underline decoration-[#c9a24b]">
-              {roles[activeRoleIndex]}
-            </span>
+      <div class="md:col-span-2 p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-xs font-mono text-gray-400 uppercase">// SYSTEM PROFILE</span>
+            <i data-lucide="activity" class="w-4 h-4 text-gold"></i>
           </div>
-
-          <p className="text-gray-400 mt-6 max-w-2xl text-sm md:text-base leading-relaxed">
-            Observability Infrastructure Automation Engineer with 3+ years of experience driving end-to-end monitoring lifecycles across complex hybrid-cloud ecosystems (OpsRamp, Datadog, K8s RBAC, Terraform).
+          <p class="text-base md:text-lg font-medium text-gray-300 leading-relaxed">
+            Specialized in building infrastructure automation frameworks using Python, REST APIs, Ansible, and Terraform[cite: 2]. Founder of <span class="text-white underline decoration-gold">Onboard Academy</span>, an edtech initiative delivering campus-to-corporate technical training[cite: 1].
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-xs font-mono text-gray-500 border-t border-white/10 pt-6 gap-4">
-          <span className="flex items-center gap-2">
-            <ArrowDown className="w-4 h-4 text-[#c9a24b]" /> SCROLL TO SCRUB TIMELINE
-          </span>
-          <span className="px-3 py-1 border border-green-500/30 bg-green-500/10 text-green-400 rounded-full">
-            ● Available for Cloud & DevOps Opportunities
-          </span>
-        </div>
-      </section>
-
-      {/* Bento Profile Summary */}
-      <section id="about" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Profile Card */}
-          <div className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between hover:border-[#c9a24b]/40 transition">
-            <div>
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-tr from-[#c9a24b] to-amber-700 flex items-center justify-center font-bold text-black text-2xl mb-4">
-                HC
-              </div>
-              <h3 className="text-xl font-bold text-white">Hari Charan Boddu</h3>
-              <p className="text-xs text-[#e4c878] font-mono mt-1">Senior Analyst @ NetEnrich</p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400 space-y-1 font-mono">
-              <p>📍 Hyderabad / Andhra Pradesh, India</p>
-              <p>🎓 MCA · Andhra University</p>
-            </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
+            <div class="text-[10px] text-gray-400">Alert Noise</div>
+            <div class="text-xs font-bold text-gold-soft mt-0.5">-40% Reduced[cite: 1, 2]</div>
           </div>
-
-          {/* System Profile Card */}
-          <div className="md:col-span-2 p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between hover:border-[#c9a24b]/40 transition">
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-xs font-mono text-gray-400 uppercase">// SYSTEM PROFILE</span>
-                <Activity className="w-4 h-4 text-[#c9a24b]" />
-              </div>
-              <p className="text-base md:text-lg font-medium text-gray-300 leading-relaxed">
-                Specialized in building infrastructure automation frameworks using Python, REST APIs, Ansible, and Terraform. Founder of <span className="text-white underline decoration-[#c9a24b]">Onboard Academy</span>, an edtech initiative delivering campus-to-corporate technical training.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-              {[
-                { label: 'MTTR Impact', val: '-40% Alert Noise' },
-                { label: 'Automation', val: '90% Manual Tasks' },
-                { label: 'Cluster Access', val: 'Kubernetes RBAC' },
-                { label: 'Operations', val: '500+ Incidents' }
-              ].map((stat, i) => (
-                <div key={i} className="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
-                  <div className="text-[10px] text-gray-400">{stat.label}</div>
-                  <div className="text-xs font-bold text-[#e4c878] mt-0.5">{stat.val}</div>
-                </div>
-              ))}
-            </div>
+          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
+            <div class="text-[10px] text-gray-400">Automation</div>
+            <div class="text-xs font-bold text-gold-soft mt-0.5">90% Tasks[cite: 1, 2]</div>
           </div>
-
-        </div>
-      </section>
-
-      {/* Experience Timeline */}
-      <section id="experience" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-        <div className="flex items-center space-x-3 mb-10">
-          <span className="font-mono text-xs text-[#c9a24b]">02 //</span>
-          <h2 className="text-2xl font-bold tracking-tight text-white uppercase">Work Experience</h2>
-        </div>
-
-        <div className="space-y-6">
-          <div className="p-8 bg-white/[0.02] border border-white/10 rounded-2xl border-l-4 border-l-[#c9a24b]">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-6">
-              <div>
-                <h3 className="text-xl font-bold text-white">Senior Analyst</h3>
-                <p className="text-sm text-gray-400 font-mono">NetEnrich Technologies · Hyderabad, India</p>
-              </div>
-              <span className="text-xs font-mono px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[#e4c878] w-fit">
-                APR 2023 – PRESENT
-              </span>
-            </div>
-
-            <ul className="space-y-3 text-sm text-gray-300 font-sans list-disc list-inside">
-              <li>Automated 90% of manual platform-administration tasks using Python and OpsRamp REST APIs/webhooks, reducing processing time by 70%.</li>
-              <li>Provisioned hybrid environments across AWS, Azure, and VMware using Terraform modules and Ansible playbooks.</li>
-              <li>Engineered Kubernetes RBAC policies and namespace isolation for multi-tenant OpsRamp NextGen Gateway clusters.</li>
-              <li>Cut alert noise by 40% through automated event-correlation policies across Linux, Windows, VMware, AWS, and Azure.</li>
-              <li>Investigated and resolved 500+ production incidents under ITIL guidelines maintaining continuous SLA compliance.</li>
-            </ul>
+          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
+            <div class="text-[10px] text-gray-400">Isolation</div>
+            <div class="text-xs font-bold text-gold-soft mt-0.5">Kubernetes RBAC[cite: 1, 2]</div>
+          </div>
+          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
+            <div class="text-[10px] text-gray-400">Incidents</div>
+            <div class="text-xs font-bold text-gold-soft mt-0.5">500+ Resolved[cite: 1, 2]</div>
           </div>
         </div>
-      </section>
-
-      {/* Technical Stack Marquee & Badges */}
-      <section id="skills" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-        <div className="flex items-center space-x-3 mb-8">
-          <span className="font-mono text-xs text-[#c9a24b]">03 //</span>
-          <h2 className="text-2xl font-bold tracking-tight text-white uppercase">Technical Stack</h2>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {[
-            "OpsRamp", "Datadog", "Kubernetes", "Terraform", "Ansible", "Python",
-            "AWS", "Microsoft Azure", "Docker", "Helm", "ServiceNow", "GitHub Actions"
-          ].map((skill) => (
-            <div 
-              key={skill} 
-              className="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-[#c9a24b] hover:bg-white/5 transition"
-            >
-              {skill}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Projects */}
-      <section id="projects" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-        <div className="flex items-center space-x-3 mb-10">
-          <span className="font-mono text-xs text-[#c9a24b]">04 //</span>
-          <h2 className="text-2xl font-bold tracking-tight text-white uppercase">Featured Engineering Projects</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <div className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between hover:border-white/30 transition">
-            <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="text-xs font-mono text-[#e4c878]">// LIVE IN PRODUCTION</span>
-                <ExternalLink className="w-4 h-4 text-gray-500" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Onboard Academy Platform</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                End-to-end campus-to-corporate edtech platform featuring cohort course engine, automated certificate generation with QR verification, and Razorpay payment gateways.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-6">
-              {['Firebase', 'Netlify', 'Razorpay', 'Python'].map(t => (
-                <span key={t} className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">{t}</span>
-              ))}
-            </div>
-          </div>
-
-          <div className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between hover:border-white/30 transition">
-            <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="text-xs font-mono text-[#e4c878]">// OBSERVABILITY PORTAL</span>
-                <Server className="w-4 h-4 text-gray-500" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">DOIP — Digital Operations Insights Portal</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                Production dashboard aggregating OpsRamp and RIC telemetry across 11 managed service partners, deployed as an automated systemd service daemon.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-6">
-              {['Python', 'Flask', 'OpsRamp API', 'REST'].map(t => (
-                <span key={t} className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">{t}</span>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Terminal Contact Dispatch */}
-      <section id="contact" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          
-          <div>
-            <div className="text-xs font-mono text-[#c9a24b] uppercase mb-2">// LIVE DISPATCH MODE</div>
-            <h2 className="text-3xl font-bold text-white mb-4">Let's Build Something Exceptional.</h2>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Open to Observability, Cloud Infrastructure, and DevOps opportunities. Send a message to dispatch a direct payload.
-            </p>
-
-            <div className="space-y-3 font-mono text-xs text-gray-300">
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-[#c9a24b]" />
-                <a href="mailto:haricharanb001@gmail.com" className="hover:underline">haricharanb001@gmail.com</a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Github className="w-4 h-4 text-[#c9a24b]" />
-                <a href="https://github.com/haricharanb" target="_blank" rel="noreferrer" className="hover:underline">github.com/haricharanb</a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Linkedin className="w-4 h-4 text-[#c9a24b]" />
-                <a href="https://linkedin.com/in/haricharanb" target="_blank" rel="noreferrer" className="hover:underline">linkedin.com/in/haricharanb</a>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Payload Preview Form */}
-          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 font-mono">
-            <div className="flex items-center space-x-2 border-b border-white/10 pb-4 mb-4">
-              <Terminal className="w-4 h-4 text-[#c9a24b]" />
-              <span className="text-xs text-gray-400">// payload_dispatch.json</span>
-            </div>
-
-            <form className="space-y-4 font-sans" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="text" 
-                placeholder="Sender Name" 
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#c9a24b]"
-              />
-              <input 
-                type="email" 
-                placeholder="Sender Email" 
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#c9a24b]"
-              />
-              <textarea 
-                rows={3} 
-                placeholder="Message Body..." 
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#c9a24b]"
-              />
-              <button 
-                type="submit" 
-                className="w-full py-3 bg-[#c9a24b] text-black font-semibold rounded-xl hover:bg-[#e4c878] transition text-xs font-mono uppercase tracking-wider"
-              >
-                Send Payload
-              </button>
-            </form>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Footer Wordmark */}
-      <footer className="border-t border-white/10 py-12 text-center font-mono text-xs text-gray-500">
-        <div className="text-4xl md:text-8xl font-black text-white/5 tracking-widest uppercase mb-4 select-none">
-          HARI CHARAN
-        </div>
-        <p>DEVOPS & OBSERVABILITY ENGINEER · 2026</p>
-      </footer>
-
+      </div>
     </div>
-  );
-}
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-10">
+      <span class="font-mono text-xs text-gold">02 //</span>
+      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Work Experience</h2>
+    </div>
+
+    <div className="p-8 bg-white/[0.02] border border-white/10 rounded-2xl border-l-4 border-l-gold p-6">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-6">
+        <div>
+          <h3 class="text-xl font-bold text-white">Senior Analyst</h3>
+          <p class="text-sm text-gray-400 font-mono">NetEnrich Technologies · Hyderabad, India[cite: 1, 2]</p>
+        </div>
+        <span class="text-xs font-mono px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gold-soft w-fit">
+          APR 2023 – PRESENT[cite: 1, 2]
+        </span>
+      </div>
+      <ul class="space-y-3 text-sm text-gray-300 font-sans list-disc list-inside">
+        <li>Automated 90% of manual platform-administration tasks using Python and OpsRamp REST APIs and webhooks[cite: 1, 2].</li>
+        <li>Provisioned hybrid environments across AWS, Azure, and VMware with Terraform modules and Ansible playbooks[cite: 1, 2].</li>
+        <li>Designed Kubernetes RBAC policies and namespace isolation for multi-tenant OpsRamp NextGen Gateway clusters[cite: 1, 2].</li>
+        <li>Cut alert noise by 40% through event-correlation policies across Linux, Windows, VMware, AWS, and Azure[cite: 1, 2].</li>
+        <li>Resolved 500+ production incidents under ITIL guidelines maintaining SLA compliance[cite: 1, 2].</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-8">
+      <span class="font-mono text-xs text-gold">03 //</span>
+      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Technical Stack</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">OpsRamp[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Datadog[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Kubernetes[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Terraform[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Ansible[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Python[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">AWS[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Microsoft Azure[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Docker[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">Helm[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">ServiceNow[cite: 1, 2]</div>
+      <div class="p-4 bg-white/[0.02] border border-white/10 rounded-xl text-xs font-mono text-center hover:border-gold">GitHub Actions[cite: 1, 2]</div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-10">
+      <span class="font-mono text-xs text-gold">04 //</span>
+      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Featured Projects</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-mono text-gold-soft">// LIVE IN PRODUCTION[cite: 1]</span>
+            <i data-lucide="external-link" class="w-4 h-4 text-gray-500"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Onboard Academy Platform[cite: 1]</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            Campus-to-corporate training platform built from the ground up, featuring cohort course engine, automated certificate generation with QR verification, and Razorpay payment gateways[cite: 1].
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-6">
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Firebase[cite: 1]</span>
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Netlify[cite: 1]</span>
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Razorpay[cite: 1]</span>
+        </div>
+      </div>
+
+      <div class="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-mono text-gold-soft">// OBSERVABILITY PORTAL[cite: 1]</span>
+            <i data-lucide="server" class="w-4 h-4 text-gray-500"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">DOIP — Digital Operations Insights Portal[cite: 1]</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            Production dashboard aggregating OpsRamp and RIC telemetry across 11 managed service partners, deployed as a systemd service daemon[cite: 1].
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-6">
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Python[cite: 1]</span>
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Flask[cite: 1]</span>
+          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">OpsRamp API[cite: 1]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <div class="text-xs font-mono text-gold uppercase mb-2">// LIVE DISPATCH MODE</div>
+        <h2 class="text-3xl font-bold text-white mb-4">Let's Build Something.[cite: 1]</h2>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+          Direct messaging portal for engineering opportunities and collaboration.
+        </p>
+        <div class="space-y-3 font-mono text-xs text-gray-300">
+          <div class="flex items-center space-x-3">
+            <i data-lucide="mail" class="w-4 h-4 text-gold"></i>
+            <a href="mailto:haricharanb001@gmail.com" class="hover:underline">haricharanb001@gmail.com[cite: 1, 2]</a>
+          </div>
+          <div class="flex items-center space-x-3">
+            <i data-lucide="github" class="w-4 h-4 text-gold"></i>
+            <a href="https://github.com/haricharanb" target="_blank" class="hover:underline">github.com/haricharanb[cite: 1]</a>
+          </div>
+          <div class="flex items-center space-x-3">
+            <i data-lucide="linkedin" class="w-4 h-4 text-gold"></i>
+            <a href="https://linkedin.com/in/haricharanb" target="_blank" class="hover:underline">linkedin.com/in/haricharanb[cite: 1]</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-4" onsubmit="event.preventDefault();">
+        <input type="text" placeholder="Sender Name" class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <input type="email" placeholder="Sender Email" class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <textarea rows="3" placeholder="Message Body..." class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold"></textarea>
+        <button type="submit" class="w-full py-3 bg-gold text-black font-semibold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase">Send Payload</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="border-t border-white/10 py-12 text-center font-mono text-xs text-gray-500">
+    <div class="text-4xl md:text-8xl font-black text-white/5 tracking-widest uppercase mb-4 select-none">HARI CHARAN</div>
+    <p>DEVOPS & OBSERVABILITY ENGINEER · 2026[cite: 1]</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
