@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hari Charan Boddu — Observability & Cloud Infrastructure Engineer</title>
+  <title>Hari Charan Boddu — Observability & Cloud Infrastructure Architect</title>
   
-  <!-- CDNs for Tailwind, Three.js 3D Engine, and Lucide Icons -->
+  <!-- CDNs: Tailwind, Three.js, GSAP + ScrollTrigger, Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -23,7 +26,7 @@
           colors: {
             gold: '#C9A24B',
             'gold-soft': '#E4C878',
-            bgDark: '#050507',
+            bgDark: '#040406',
           }
         }
       }
@@ -31,26 +34,35 @@
   </script>
 
   <style>
-    /* 3D Glassmorphism and Tilt Utilities */
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .preserve-3d {
-      transform-style: preserve-3d;
-    }
-    .tilt-card {
-      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
-    }
-    .glass-card {
-      background: rgba(18, 20, 26, 0.65);
-      backdrop-filter: blur(16px);
+    /* 3D Glass & Depth Effects */
+    .perspective-1200 { perspective: 1200px; }
+    .preserve-3d { transform-style: preserve-3d; }
+    
+    .glass-panel {
+      background: rgba(12, 14, 20, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
     }
-    .glass-card:hover {
+    
+    .glass-panel:hover {
       border-color: rgba(201, 162, 75, 0.4);
-      box-shadow: 0 0 30px rgba(201, 162, 75, 0.15);
+      box-shadow: 0 0 35px rgba(201, 162, 75, 0.2);
     }
-    #three-bg {
+
+    .tilt-element {
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+
+    .shimmer-overlay {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%);
+      pointer-events: none;
+    }
+
+    #webgl-canvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -59,83 +71,106 @@
       z-index: 0;
       pointer-events: none;
     }
+
+    /* Cyberpunk Scanline Effect */
+    .scanline {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-bgDark text-[#ede7da] font-sans antialiased overflow-x-hidden selection:bg-gold selection:text-black">
 
-  <!-- 3D Interactive Canvas Background -->
-  <canvas id="three-bg"></canvas>
+  <!-- 3D Canvas World -->
+  <canvas id="webgl-canvas"></canvas>
+  <div class="scanline fixed inset-0 z-40 opacity-30"></div>
 
-  <!-- Top Glass Navigation -->
-  <nav class="flex justify-between items-center px-6 md:px-12 py-5 border-b border-white/10 backdrop-blur-xl fixed top-0 w-full z-50 bg-[#050507]/80">
-    <div class="flex items-center space-x-3">
-      <span class="w-2.5 h-2.5 bg-gold rounded-full animate-ping"></span>
-      <span class="font-mono font-bold tracking-tight text-sm md:text-base text-white">HARI CHARAN.</span>
+  <!-- Navigation Bar -->
+  <nav class="flex justify-between items-center px-6 md:px-12 py-5 border-b border-white/10 backdrop-blur-2xl fixed top-0 w-full z-50 bg-[#040406]/80">
+    <div class="flex items-center space-x-3 cursor-pointer" onclick="playAudioTone(800, 0.05)">
+      <div class="relative flex items-center justify-center">
+        <span class="w-3 h-3 bg-gold rounded-full animate-ping absolute"></span>
+        <span class="w-2.5 h-2.5 bg-gold rounded-full relative"></span>
+      </div>
+      <span class="font-mono font-bold tracking-tight text-sm md:text-base text-white">HARI CHARAN<span class="text-gold">.IO</span></span>
     </div>
+
     <div class="hidden md:flex space-x-8 text-xs font-mono uppercase tracking-widest text-gray-400">
-      <a href="#about" class="hover:text-gold transition">About</a>
-      <a href="#experience" class="hover:text-gold transition">Experience</a>
-      <a href="#skills" class="hover:text-gold transition">Skills</a>
-      <a href="#projects" class="hover:text-gold transition">Projects</a>
-      <a href="#contact" class="hover:text-gold transition">Dispatch</a>
+      <a href="#about" class="hover:text-gold transition" onclick="playAudioTone(600, 0.03)">// 01.About</a>
+      <a href="#experience" class="hover:text-gold transition" onclick="playAudioTone(600, 0.03)">// 02.Experience</a>
+      <a href="#skills" class="hover:text-gold transition" onclick="playAudioTone(600, 0.03)">// 03.Stack</a>
+      <a href="#projects" class="hover:text-gold transition" onclick="playAudioTone(600, 0.03)">// 04.Projects</a>
+      <a href="#terminal" class="hover:text-gold transition" onclick="playAudioTone(600, 0.03)">// 05.CLI</a>
     </div>
+
+    <button id="sound-toggle" class="px-3 py-1.5 border border-gold/30 bg-gold/10 text-gold text-xs font-mono rounded-full hover:bg-gold/20 transition flex items-center gap-2">
+      <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> AUDIO: ON
+    </button>
   </nav>
 
-  <!-- HERO SECTION WITH 3D TILT PHOTO & SCRUBBER -->
-  <section class="relative z-10 min-h-screen flex flex-col justify-between pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
+  <!-- HERO SECTION WITH Interactive 3D Card -->
+  <section class="relative z-10 min-h-screen flex flex-col justify-between pt-36 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-auto">
       
-      <!-- Title & Text Scrubber -->
+      <!-- Hero Left Column -->
       <div class="lg:col-span-7 space-y-6">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-gold/10 border border-gold/30 rounded-full text-xs font-mono text-gold-soft">
-          <span class="w-2 h-2 rounded-full bg-gold"></span>
-          <span>SYSTEM STATUS · ONLINE</span>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-gold/10 border border-gold/40 rounded-full text-xs font-mono text-gold-soft shadow-[0_0_15px_rgba(201,162,75,0.2)]">
+          <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+          <span>OBSERVABILITY INFRASTRUCTURE ONLINE</span>
         </div>
 
         <div>
-          <p class="text-xs font-mono text-gold uppercase tracking-widest mb-2">// HI, I'M HARI CHARAN</p>
-          <h1 id="hero-title" class="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white transition-all duration-300">
-            CREATIVE <br />
-            <span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">
-              DEVELOPER
+          <p class="text-xs font-mono text-gold uppercase tracking-widest mb-2">// SENIOR AUTOMATION ENGINEER</p>
+          <h1 id="hero-title" class="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
+            OBSERVABILITY <br />
+            <span class="bg-gradient-to-r from-gold via-gold-soft to-gray-300 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(201,162,75,0.3)]">
+              ARCHITECT
             </span>
           </h1>
         </div>
 
-        <p class="text-gray-400 max-w-xl text-sm md:text-base leading-relaxed">
-          Specializing in high-performance observability infrastructure, Kubernetes RBAC architecture, and end-to-end automation pipelines across cloud platforms[cite: 1, 2].
+        <p class="text-gray-400 max-w-xl text-sm md:text-base leading-relaxed font-sans">
+          3+ years architecting multi-tenant Kubernetes RBAC isolation, high-throughput log forwarders, and automated hybrid-cloud telemetry across OpsRamp, Datadog, and AWS[cite: 1, 2].
         </p>
 
-        <div class="flex items-center space-x-4 pt-2">
-          <a href="#contact" class="px-6 py-3 bg-gold text-black font-semibold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase tracking-wider">
-            Deploy Contact
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="#contact" onclick="playAudioTone(900, 0.08)" class="px-8 py-4 bg-gold text-black font-bold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase tracking-wider shadow-[0_0_25px_rgba(201,162,75,0.4)]">
+            Dispatch Contact Payload
           </a>
-          <a href="https://github.com/haricharanb" target="_blank" class="px-6 py-3 border border-white/10 rounded-xl hover:border-gold transition text-xs font-mono text-gray-300 flex items-center gap-2">
-            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+          <a href="https://github.com/haricharanb" target="_blank" onclick="playAudioTone(500, 0.04)" class="px-6 py-4 glass-panel rounded-xl hover:border-gold transition text-xs font-mono text-gray-300 flex items-center gap-2">
+            <i data-lucide="github" class="w-4 h-4 text-gold"></i> GitHub Repository[cite: 1]
           </a>
         </div>
       </div>
 
-      <!-- 3D Tilting Photo Card -->
-      <div class="lg:col-span-5 flex justify-center perspective-1000">
-        <div id="photo-card" class="tilt-card preserve-3d relative w-72 h-96 md:w-80 md:h-[26rem] rounded-2xl p-3 glass-card cursor-pointer">
-          <div class="relative w-full h-full rounded-xl overflow-hidden border border-white/10 group">
-            <!-- User Photo -->
+      <!-- Hero Right Column: Extreme 3D Holographic Photo Card -->
+      <div class="lg:col-span-5 flex justify-center perspective-1200">
+        <div id="hero-3d-card" class="tilt-element preserve-3d relative w-72 h-96 md:w-80 md:h-[27rem] rounded-3xl p-4 glass-panel cursor-pointer">
+          <div class="shimmer-overlay absolute inset-0 rounded-3xl z-20"></div>
+          
+          <div class="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 group preserve-3d">
+            <!-- User Image -->
             <img 
               src="1000366195.jpeg" 
               onerror="this.src='profile.jpg'" 
               alt="Hari Charan Boddu" 
-              class="w-full h-full object-cover object-top transition duration-700 group-hover:scale-105"
+              class="w-full h-full object-cover object-top transition duration-700 group-hover:scale-110 filter brightness-95 contrast-105"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
             
-            <!-- Floating Holographic Badge -->
-            <div class="absolute bottom-4 left-4 right-4 p-3 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 flex items-center justify-between">
-              <div>
-                <p class="text-xs font-bold text-white">Hari Charan Boddu</p>
-                <p class="text-[10px] text-gold-soft font-mono">Senior Analyst @ NetEnrich[cite: 1, 2]</p>
+            <!-- 3D Floating Badges (Layer Separation) -->
+            <div class="absolute top-4 left-4 [transform:translateZ(40px)] px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-gold/40 text-[10px] font-mono text-gold-soft">
+              ● NetEnrich Sr. Analyst[cite: 1, 2]
+            </div>
+
+            <div class="absolute bottom-4 left-4 right-4 [transform:translateZ(50px)] p-4 bg-black/70 backdrop-blur-md rounded-2xl border border-white/15">
+              <p class="text-sm font-bold text-white">Hari Charan Boddu</p>
+              <p class="text-xs text-gold-soft font-mono mt-0.5">Cloud & Automation Engineer[cite: 2]</p>
+              <div class="mt-2 flex items-center justify-between text-[10px] font-mono text-gray-400 border-t border-white/10 pt-2">
+                <span>HYDERABAD, IN[cite: 1, 2]</span>
+                <span class="text-green-400">STATUS: ACTIVE</span>
               </div>
-              <span class="px-2 py-1 bg-gold/20 text-gold border border-gold/40 rounded text-[9px] font-mono">2026</span>
             </div>
           </div>
         </div>
@@ -143,66 +178,68 @@
 
     </div>
 
-    <!-- Timeline Scrub Bar -->
+    <!-- Timeline Scrubber Footbar -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center text-xs font-mono text-gray-500 border-t border-white/10 pt-6 gap-4">
       <div class="flex items-center gap-3">
-        <i data-lucide="arrow-down" class="w-4 h-4 text-gold animate-bounce"></i>
-        <span>SCROLL TO SCRUB TIMELINE</span>
-        <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
-          <div id="scrub-progress" class="h-full bg-gold w-1/4 transition-all duration-150"></div>
+        <i data-lucide="compass" class="w-4 h-4 text-gold animate-spin"></i>
+        <span class="text-gray-400">3D NAVIGATION SCRUBBER</span>
+        <div class="w-36 h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div id="scrub-bar" class="h-full bg-gradient-to-r from-gold to-gold-soft w-0 transition-all"></div>
         </div>
       </div>
-      <span class="px-3 py-1 border border-green-500/30 bg-green-500/10 text-green-400 rounded-full">
-        ● Available for Cloud & DevOps Opportunities[cite: 2]
+      <span class="px-3 py-1 border border-green-500/30 bg-green-500/10 text-green-400 rounded-full font-mono">
+        ● Open for Cloud/DevOps Engagements[cite: 2]
       </span>
     </div>
   </section>
 
   <!-- BENTO PROFILE SECTION -->
-  <section id="about" class="relative z-10 py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+  <section id="about" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       
-      <div class="p-6 glass-card rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-gold to-amber-700 flex items-center justify-center font-bold text-black text-2xl mb-4">
+      <!-- Identity Card -->
+      <div class="p-8 glass-panel rounded-3xl flex flex-col justify-between tilt-element preserve-3d">
+        <div class="[transform:translateZ(30px)]">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-gold to-amber-600 flex items-center justify-center font-bold text-black text-2xl shadow-[0_0_25px_rgba(201,162,75,0.4)] mb-6">
             HC
           </div>
-          <h3 class="text-xl font-bold text-white">Hari Charan Boddu</h3>
+          <h3 class="text-2xl font-bold text-white">Hari Charan Boddu</h3>
           <p class="text-xs text-gold-soft font-mono mt-1">Observability & Automation Engineer[cite: 2]</p>
         </div>
-        <div class="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400 space-y-1 font-mono">
-          <p>📍 Hyderabad / Andhra Pradesh, India[cite: 1, 2]</p>
-          <p>🎓 MCA · Andhra University[cite: 2]</p>
+        <div class="mt-8 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2 font-mono [transform:translateZ(20px)]">
+          <p class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold"></i> Hyderabad / Andhra Pradesh, India[cite: 1, 2]</p>
+          <p class="flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gold"></i> MCA · Andhra University[cite: 2]</p>
         </div>
       </div>
 
-      <div class="md:col-span-2 p-6 glass-card rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-center mb-4">
-            <span class="text-xs font-mono text-gray-400 uppercase">// SYSTEM PROFILE</span>
-            <i data-lucide="activity" class="w-4 h-4 text-gold"></i>
+      <!-- Core Bio & Telemetry Impact -->
+      <div class="md:col-span-2 p-8 glass-panel rounded-3xl flex flex-col justify-between tilt-element preserve-3d">
+        <div class="[transform:translateZ(25px)]">
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-xs font-mono text-gold uppercase tracking-widest">// ARCHITECTURAL SUMMARY</span>
+            <i data-lucide="activity" class="w-5 h-5 text-gold"></i>
           </div>
-          <p class="text-base md:text-lg font-medium text-gray-300 leading-relaxed">
-            Automating 90% of manual platform tasks using Python, REST APIs, Ansible, and Terraform[cite: 1, 2]. Founder of <span class="text-white underline decoration-gold">Onboard Academy</span>, an edtech initiative delivering campus-to-corporate technical training[cite: 1].
+          <p class="text-lg font-medium text-gray-200 leading-relaxed">
+            Automating 90% of manual infrastructure tasks using Python, REST APIs, Ansible, and Terraform[cite: 1, 2]. Founder and leader of <span class="text-white underline decoration-gold">Onboard Academy</span>, an edtech engine delivering campus-to-corporate technical training pipelines[cite: 1].
           </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
-            <div class="text-[10px] text-gray-400">Alert Noise</div>
-            <div class="text-xs font-bold text-gold-soft mt-0.5">-40% Reduced[cite: 1, 2]</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 [transform:translateZ(35px)]">
+          <div class="p-4 bg-white/5 border border-white/10 rounded-2xl font-mono">
+            <div class="text-[10px] text-gray-400 uppercase">Alert Noise</div>
+            <div class="text-sm font-bold text-gold-soft mt-1">-40% Reduced[cite: 1, 2]</div>
           </div>
-          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
-            <div class="text-[10px] text-gray-400">Automation</div>
-            <div class="text-xs font-bold text-gold-soft mt-0.5">90% Tasks[cite: 1, 2]</div>
+          <div class="p-4 bg-white/5 border border-white/10 rounded-2xl font-mono">
+            <div class="text-[10px] text-gray-400 uppercase">Task Automation</div>
+            <div class="text-sm font-bold text-gold-soft mt-1">90% Executed[cite: 1, 2]</div>
           </div>
-          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
-            <div class="text-[10px] text-gray-400">Isolation</div>
-            <div class="text-xs font-bold text-gold-soft mt-0.5">Kubernetes RBAC[cite: 1, 2]</div>
+          <div class="p-4 bg-white/5 border border-white/10 rounded-2xl font-mono">
+            <div class="text-[10px] text-gray-400 uppercase">Multi-Tenancy</div>
+            <div class="text-sm font-bold text-gold-soft mt-1">K8s RBAC[cite: 1, 2]</div>
           </div>
-          <div class="p-3 bg-white/5 border border-white/5 rounded-xl font-mono">
-            <div class="text-[10px] text-gray-400">Incidents</div>
-            <div class="text-xs font-bold text-gold-soft mt-0.5">500+ Resolved[cite: 1, 2]</div>
+          <div class="p-4 bg-white/5 border border-white/10 rounded-2xl font-mono">
+            <div class="text-[10px] text-gray-400 uppercase">Production SLA</div>
+            <div class="text-sm font-bold text-gold-soft mt-1">500+ RCA Incidents[cite: 1, 2]</div>
           </div>
         </div>
       </div>
@@ -210,192 +247,287 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE SECTION -->
-  <section id="experience" class="relative z-10 py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-    <div class="flex items-center space-x-3 mb-10">
+  <!-- EXPERIENCE TIMELINE -->
+  <section id="experience" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-12">
       <span class="font-mono text-xs text-gold">02 //</span>
-      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Work Experience</h2>
+      <h2 class="text-3xl font-bold tracking-tight text-white uppercase">Work Experience</h2>
     </div>
 
-    <div class="p-8 glass-card rounded-2xl border-l-4 border-l-gold">
-      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-6">
+    <div class="p-8 md:p-10 glass-panel rounded-3xl border-l-4 border-l-gold">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
         <div>
-          <h3 class="text-xl font-bold text-white">Senior Analyst</h3>
-          <p class="text-sm text-gray-400 font-mono">NetEnrich Technologies · Hyderabad, India[cite: 1, 2]</p>
+          <h3 class="text-2xl font-bold text-white">Senior Analyst — Automation & DevOps</h3>
+          <p class="text-sm text-gold-soft font-mono mt-1">NetEnrich Technologies · Hyderabad, India[cite: 1, 2]</p>
         </div>
-        <span class="text-xs font-mono px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gold-soft w-fit">
+        <span class="text-xs font-mono px-4 py-1.5 bg-gold/10 border border-gold/30 rounded-full text-gold-soft w-fit">
           APR 2023 – PRESENT[cite: 1, 2]
         </span>
       </div>
-      <ul class="space-y-3 text-sm text-gray-300 font-sans list-disc list-inside">
-        <li>Automated 90% of manual platform-administration tasks using Python and OpsRamp REST APIs and webhooks[cite: 1, 2].</li>
-        <li>Provisioned hybrid environments across AWS, Azure, and VMware with Terraform modules and Ansible playbooks[cite: 1, 2].</li>
-        <li>Designed Kubernetes RBAC policies and namespace isolation for multi-tenant OpsRamp NextGen Gateway clusters[cite: 1, 2].</li>
-        <li>Cut alert noise by 40% through event-correlation policies across Linux, Windows, VMware, AWS, and Azure[cite: 1, 2].</li>
-        <li>Resolved 500+ production incidents under ITIL guidelines maintaining SLA compliance[cite: 1, 2].</li>
+
+      <ul class="space-y-4 text-sm text-gray-300 font-sans list-disc list-inside leading-relaxed">
+        <li>Automated 90% of manual platform-administration workflows using Python and OpsRamp REST APIs/webhooks, cutting handling times by 70%[cite: 1, 2].</li>
+        <li>Provisioned hybrid infrastructure across AWS, Azure, and VMware with standardized Terraform modules and Ansible playbooks[cite: 1, 2].</li>
+        <li>Implemented multi-tenant Kubernetes RBAC isolation, namespace security, and ResourceQuotas on OpsRamp NextGen Gateway clusters[cite: 1, 2].</li>
+        <li>Slashed monitoring alert noise by 40% through automated event-correlation policies across OS and cloud infrastructure[cite: 1, 2].</li>
+        <li>Investigated, categorized, and resolved 500+ high-severity production incidents under strict ITIL SLA governance[cite: 1, 2].</li>
       </ul>
     </div>
   </section>
 
-  <!-- SKILLS SECTION -->
-  <section id="skills" class="relative z-10 py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-    <div class="flex items-center space-x-3 mb-8">
+  <!-- TECHNICAL STACK MARQUEE & BADGES -->
+  <section id="skills" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-10">
       <span class="font-mono text-xs text-gold">03 //</span>
-      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Technical Stack</h2>
+      <h2 class="text-3xl font-bold tracking-tight text-white uppercase">Technical Core</h2>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">OpsRamp[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Datadog[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Kubernetes[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Terraform[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Ansible[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Python[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">AWS[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Microsoft Azure[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Docker[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">Helm[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">ServiceNow[cite: 1, 2]</div>
-      <div class="p-4 glass-card rounded-xl text-xs font-mono text-center hover:scale-105 transition">GitHub Actions[cite: 1, 2]</div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {[
+        "OpsRamp", "Datadog", "Kubernetes", "Terraform", "Ansible", "Python Core",
+        "AWS", "Microsoft Azure", "Docker", "Helm Charts", "ServiceNow", "GitHub Actions"
+      ].map(skill => `
+        <div class="p-5 glass-panel rounded-2xl text-xs font-mono text-center hover:scale-105 transition hover:border-gold cursor-default" onclick="playAudioTone(700, 0.04)">
+          ${skill}
+        </div>
+      `).join('')}
     </div>
   </section>
 
   <!-- FEATURED PROJECTS -->
-  <section id="projects" class="relative z-10 py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
-    <div class="flex items-center space-x-3 mb-10">
+  <section id="projects" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-12">
       <span class="font-mono text-xs text-gold">04 //</span>
-      <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Featured Engineering Projects</h2>
+      <h2 class="text-3xl font-bold tracking-tight text-white uppercase">Featured Engineering Projects</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="p-6 glass-card rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-start mb-4">
-            <span class="text-xs font-mono text-gold-soft">// LIVE IN PRODUCTION[cite: 1]</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-gray-500"></i>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- Onboard Academy -->
+      <div class="p-8 glass-panel rounded-3xl flex flex-col justify-between tilt-element preserve-3d">
+        <div class="[transform:translateZ(20px)]">
+          <div class="flex justify-between items-start mb-6">
+            <span class="text-xs font-mono text-gold-soft">// LIVE EDTECH PLATFORM[cite: 1]</span>
+            <i data-lucide="external-link" class="w-5 h-5 text-gold"></i>
           </div>
-          <h3 class="text-lg font-bold text-white mb-2">Onboard Academy Platform[cite: 1]</h3>
+          <h3 class="text-xl font-bold text-white mb-3">Onboard Academy Platform[cite: 1]</h3>
           <p class="text-xs text-gray-400 leading-relaxed">
-            Campus-to-corporate training platform built from the ground up, featuring cohort course engine, automated certificate generation with QR verification, and Razorpay payment gateways[cite: 1].
+            End-to-end campus-to-corporate edtech platform shipped to production. Features cohort-based course delivery, automated certificate generation with QR verification, and Razorpay payment integration[cite: 1].
           </p>
         </div>
-        <div class="flex flex-wrap gap-2 mt-6">
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Firebase[cite: 1]</span>
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Netlify[cite: 1]</span>
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Razorpay[cite: 1]</span>
+        <div class="flex flex-wrap gap-2 mt-8 [transform:translateZ(30px)]">
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Firebase[cite: 1]</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Netlify[cite: 1]</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Razorpay[cite: 1]</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Python[cite: 1]</span>
         </div>
       </div>
 
-      <div class="p-6 glass-card rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-start mb-4">
+      <!-- DOIP -->
+      <div class="p-8 glass-panel rounded-3xl flex flex-col justify-between tilt-element preserve-3d">
+        <div class="[transform:translateZ(20px)]">
+          <div class="flex justify-between items-start mb-6">
             <span class="text-xs font-mono text-gold-soft">// OBSERVABILITY PORTAL[cite: 1]</span>
-            <i data-lucide="server" class="w-4 h-4 text-gray-500"></i>
+            <i data-lucide="server" class="w-5 h-5 text-gold"></i>
           </div>
-          <h3 class="text-lg font-bold text-white mb-2">DOIP — Digital Operations Insights Portal[cite: 1]</h3>
+          <h3 class="text-xl font-bold text-white mb-3">DOIP — Digital Operations Insights Portal[cite: 1]</h3>
           <p class="text-xs text-gray-400 leading-relaxed">
-            Production dashboard aggregating OpsRamp and RIC telemetry across 11 managed service partners, deployed as a systemd service daemon[cite: 1].
+            Production telemetry portal aggregating OpsRamp and RIC metrics across 11 managed service partner domains, running as an automated systemd Linux service[cite: 1].
           </p>
         </div>
-        <div class="flex flex-wrap gap-2 mt-6">
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Python[cite: 1]</span>
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">Flask[cite: 1]</span>
-          <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-gray-300">OpsRamp API[cite: 1]</span>
+        <div class="flex flex-wrap gap-2 mt-8 [transform:translateZ(30px)]">
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Python[cite: 1]</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">Flask[cite: 1]</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-gray-300">OpsRamp REST API[cite: 1]</span>
         </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE CYBER TERMINAL (CLI) -->
+  <section id="terminal" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex items-center space-x-3 mb-8">
+      <span class="font-mono text-xs text-gold">05 //</span>
+      <h2 class="text-3xl font-bold tracking-tight text-white uppercase">Interactive CLI Shell</h2>
+    </div>
+
+    <div class="glass-panel rounded-3xl p-6 font-mono text-xs">
+      <!-- Terminal Header -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+        <div class="flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          <span class="text-gray-400 ml-2 text-[11px]">haricharan@obs-gateway:~</span>
+        </div>
+        <span class="text-gold-soft text-[10px]">v2026.1-STABLE</span>
+      </div>
+
+      <!-- Output Screen -->
+      <div id="cli-output" class="space-y-2 text-gray-300 min-h-[160px] max-h-[300px] overflow-y-auto pr-2">
+        <p class="text-gold-soft">Welcome to Hari Charan's Interactive Shell. Type <span class="text-white underline">help</span> for commands.</p>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="flex items-center mt-4 border-t border-white/10 pt-3">
+        <span class="text-gold font-bold mr-2">charan@gateway:~$</span>
+        <input 
+          id="cli-input" 
+          type="text" 
+          placeholder="type 'help', 'skills', 'contact', 'clear'..."
+          class="w-full bg-transparent text-white focus:outline-none font-mono text-xs"
+          autocomplete="off"
+        >
       </div>
     </div>
   </section>
 
   <!-- CONTACT DISPATCH -->
-  <section id="contact" class="relative z-10 py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
+  <section id="contact" class="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
-        <div class="text-xs font-mono text-gold uppercase mb-2">// LIVE DISPATCH MODE</div>
-        <h2 class="text-3xl font-bold text-white mb-4">Let's Build Something[cite: 1].</h2>
-        <p class="text-gray-400 text-sm leading-relaxed mb-6">
-          Direct messaging portal for cloud engineering opportunities and platform automation collaboration.
+        <div class="text-xs font-mono text-gold uppercase mb-2">// DIRECT DISPATCH PORTAL</div>
+        <h2 class="text-4xl font-bold text-white mb-4">Let's Build Something[cite: 1].</h2>
+        <p class="text-gray-400 text-sm leading-relaxed mb-8">
+          Reach out directly regarding Observability Architecture, Kubernetes Access Management, or Cloud Infrastructure Automation roles.
         </p>
-        <div class="space-y-3 font-mono text-xs text-gray-300">
-          <div class="flex items-center space-x-3">
-            <i data-lucide="mail" class="w-4 h-4 text-gold"></i>
-            <a href="mailto:haricharanb001@gmail.com" class="hover:underline">haricharanb001@gmail.com[cite: 1, 2]</a>
+
+        <div class="space-y-4 font-mono text-xs text-gray-300">
+          <div class="flex items-center space-x-4">
+            <i data-lucide="mail" class="w-5 h-5 text-gold"></i>
+            <a href="mailto:haricharanb001@gmail.com" class="hover:text-gold transition">haricharanb001@gmail.com[cite: 1, 2]</a>
           </div>
-          <div class="flex items-center space-x-3">
-            <i data-lucide="github" class="w-4 h-4 text-gold"></i>
-            <a href="https://github.com/haricharanb" target="_blank" class="hover:underline">github.com/haricharanb[cite: 1]</a>
+          <div class="flex items-center space-x-4">
+            <i data-lucide="github" class="w-5 h-5 text-gold"></i>
+            <a href="https://github.com/haricharanb" target="_blank" class="hover:text-gold transition">github.com/haricharanb[cite: 1]</a>
           </div>
-          <div class="flex items-center space-x-3">
-            <i data-lucide="linkedin" class="w-4 h-4 text-gold"></i>
-            <a href="https://linkedin.com/in/haricharanb" target="_blank" class="hover:underline">linkedin.com/in/haricharanb[cite: 1]</a>
+          <div class="flex items-center space-x-4">
+            <i data-lucide="linkedin" class="w-5 h-5 text-gold"></i>
+            <a href="https://linkedin.com/in/haricharanb" target="_blank" class="hover:text-gold transition">linkedin.com/in/haricharanb[cite: 1]</a>
           </div>
         </div>
       </div>
 
-      <form class="glass-card rounded-2xl p-6 space-y-4" onsubmit="event.preventDefault();">
-        <input type="text" placeholder="Sender Name" class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
-        <input type="email" placeholder="Sender Email" class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
-        <textarea rows="3" placeholder="Message Payload..." class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold"></textarea>
-        <button type="submit" class="w-full py-3 bg-gold text-black font-semibold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase">Send Payload</button>
+      <form class="glass-panel rounded-3xl p-8 space-y-4" onsubmit="event.preventDefault();">
+        <input type="text" placeholder="Sender Identity" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <input type="email" placeholder="Sender Email" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold">
+        <textarea rows="4" placeholder="Payload Message..." class="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-gold"></textarea>
+        <button type="submit" onclick="playAudioTone(1000, 0.1)" class="w-full py-4 bg-gold text-black font-bold rounded-xl hover:bg-gold-soft transition text-xs font-mono uppercase tracking-wider shadow-[0_0_20px_rgba(201,162,75,0.3)]">
+          Transmit Payload
+        </button>
       </form>
     </div>
   </section>
 
-  <footer class="relative z-10 border-t border-white/10 py-12 text-center font-mono text-xs text-gray-500">
-    <div class="text-4xl md:text-8xl font-black text-white/5 tracking-widest uppercase mb-4 select-none">HARI CHARAN</div>
-    <p>DEVOPS & OBSERVABILITY ENGINEER · 2026[cite: 1]</p>
+  <!-- FOOTER WORDMARK -->
+  <footer class="relative z-10 border-t border-white/10 py-16 text-center font-mono text-xs text-gray-500">
+    <div class="text-5xl md:text-9xl font-black text-white/5 tracking-widest uppercase mb-4 select-none">
+      HARI CHARAN
+    </div>
+    <p>OBSERVABILITY & CLOUD INFRASTRUCTURE ARCHITECT · 2026[cite: 1]</p>
   </footer>
 
-  <!-- ANIMATION & 3D CONTROLLER SCRIPTS -->
+  <!-- ADVANCED THREE.JS 3D SCENE & GSAP CONTROLLERS -->
   <script>
     lucide.createIcons();
 
-    // 1. THREE.JS 3D BACKGROUND PARTICLES
-    const canvas = document.getElementById('three-bg');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    // 1. SYNTHESIZED WEB AUDIO FEEDBACK (Zero External Audio Assets)
+    let soundEnabled = true;
+    const soundBtn = document.getElementById('sound-toggle');
     
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    soundBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundBtn.innerHTML = soundEnabled ? '<i data-lucide="volume-2" class="w-3.5 h-3.5"></i> AUDIO: ON' : '<i data-lucide="volume-x" class="w-3.5 h-3.5"></i> AUDIO: OFF';
+      lucide.createIcons();
+    });
 
-    // Particle Cloud Geometry
-    const particleCount = 200;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 20;
+    function playAudioTone(freq, duration) {
+      if (!soundEnabled) return;
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
     }
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const material = new THREE.PointsMaterial({
+    // 2. THREE.JS HIGH-END 3D CYBER SCENE
+    const canvas = document.getElementById('webgl-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Central Wireframe Cyber-Core
+    const coreGroup = new THREE.Group();
+    scene.add(coreGroup);
+
+    const icosaGeo = new THREE.IcosahedronGeometry(2.2, 2);
+    const icosaMat = new THREE.MeshBasicMaterial({
       color: 0xc9a24b,
-      size: 0.04,
+      wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.25
+    });
+    const cyberCore = new THREE.Mesh(icosaGeo, icosaMat);
+    coreGroup.add(cyberCore);
+
+    // Dynamic 3D Cursor Spotlight
+    const pointLight = new THREE.PointLight(0xc9a24b, 2, 20);
+    scene.add(pointLight);
+
+    // Cloud Telemetry Nodes (Constellation)
+    const nodeCount = 180;
+    const nodeGeo = new THREE.BufferGeometry();
+    const nodePos = new Float32Array(nodeCount * 3);
+
+    for (let i = 0; i < nodeCount * 3; i++) {
+      nodePos[i] = (Math.random() - 0.5) * 25;
+    }
+    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
+
+    const nodeMat = new THREE.PointsMaterial({
+      color: 0xe4c878,
+      size: 0.06,
+      transparent: true,
+      opacity: 0.7
     });
 
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
+    const nodeCloud = new THREE.Points(nodeGeo, nodeMat);
+    scene.add(nodeCloud);
 
-    camera.position.z = 5;
+    camera.position.z = 7;
 
-    // Mouse Parallax Effect for 3D Background
-    let mouseX = 0, mouseY = 0;
+    // Mouse Tracking for 3D Specular Light
+    let targetX = 0, targetY = 0;
     window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+      targetX = (e.clientX / window.innerWidth - 0.5) * 6;
+      targetY = -(e.clientY / window.innerHeight - 0.5) * 6;
+      pointLight.position.set(targetX, targetY, 3);
     });
 
-    function animateThree() {
-      requestAnimationFrame(animateThree);
-      particles.rotation.y += 0.001;
-      particles.rotation.x += 0.0005;
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+      cyberCore.rotation.x += 0.002;
+      cyberCore.rotation.y += 0.003;
+      nodeCloud.rotation.y -= 0.0008;
 
-      camera.position.x += (mouseX - camera.position.x) * 0.05;
-      camera.position.y += (-mouseY - camera.position.y) * 0.05;
+      camera.position.x += (targetX * 0.3 - camera.position.x) * 0.05;
+      camera.position.y += (targetY * 0.3 - camera.position.y) * 0.05;
 
       renderer.render(scene, camera);
     }
-    animateThree();
+    renderLoop();
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -403,50 +535,78 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // 2. 3D CARD TILT EFFECT FOR PROFILE IMAGE
-    const photoCard = document.getElementById('photo-card');
-    
-    photoCard.addEventListener('mousemove', (e) => {
-      const rect = photoCard.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      
-      const rotateX = (-y / rect.height) * 20;
-      const rotateY = (x / rect.width) * 20;
+    // 3. GSAP SCROLLTRIGGER 3D CAMERA FLIGHT
+    gsap.registerPlugin(ScrollTrigger);
 
-      photoCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    gsap.to(camera.position, {
+      z: 3,
+      y: -4,
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.5,
+        onUpdate: (self) => {
+          document.getElementById('scrub-bar').style.width = `${self.progress * 100}%`;
+        }
+      }
     });
 
-    photoCard.addEventListener('mouseleave', () => {
-      photoCard.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    // 4. PARALLAX 3D CARD TILT WITH MOUSE SHIMMER
+    document.querySelectorAll('.tilt-element').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const rotateX = (-y / rect.height) * 22;
+        const rotateY = (x / rect.width) * 22;
+
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      });
     });
 
-    // 3. SCROLL SCRUBBING FOR HERO TITLE
-    const titles = [
-      `CREATIVE <br /><span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">DEVELOPER</span>`,
-      `OBSERVABILITY <br /><span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">ENGINEER</span>`,
-      `KUBERNETES <br /><span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">ARCHITECT</span>`,
-      `CLOUD <br /><span class="bg-gradient-to-r from-gold via-gold-soft to-gray-400 bg-clip-text text-transparent">AUTOMATION</span>`
-    ];
+    // 5. INTERACTIVE CLI SHELL LOGIC
+    const cliInput = document.getElementById('cli-input');
+    const cliOutput = document.getElementById('cli-output');
 
-    const heroTitle = document.getElementById('hero-title');
-    const scrubProgress = document.getElementById('scrub-progress');
+    const commands = {
+      help: "Available commands: <span class='text-gold'>about</span>, <span class='text-gold'>skills</span>, <span class='text-gold'>projects</span>, <span class='text-gold'>contact</span>, <span class='text-gold'>clear</span>",
+      about: "Hari Charan Boddu — Senior Analyst @ NetEnrich. 3+ years OpsRamp/K8s/AWS Observability Engineer.",
+      skills: "OpsRamp, Datadog, Kubernetes, Terraform, Ansible, Python, AWS, Azure, Docker, Helm, ServiceNow",
+      projects: "1. Onboard Academy (EdTech Platform)\n2. DOIP (Digital Operations Insights Portal)",
+      contact: "Email: haricharanb001@gmail.com | LinkedIn: linkedin.com/in/haricharanb"
+    };
 
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, scrollTop / (window.innerHeight * 1.5)));
+    cliInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const inputVal = cliInput.value.trim().toLowerCase();
+        playAudioTone(800, 0.05);
 
-      scrubProgress.style.width = `${Math.min(100, (scrollTop / maxScroll) * 100)}%`;
+        const newLine = document.createElement('p');
+        newLine.innerHTML = `<span class="text-gold">charan@gateway:~$</span> ${inputVal}`;
+        cliOutput.appendChild(newLine);
 
-      const titleIndex = Math.min(titles.length - 1, Math.floor(progress * titles.length));
-      if (heroTitle.dataset.index != titleIndex) {
-        heroTitle.dataset.index = titleIndex;
-        heroTitle.style.opacity = '0';
-        setTimeout(() => {
-          heroTitle.innerHTML = titles[titleIndex];
-          heroTitle.style.opacity = '1';
-        }, 150);
+        if (inputVal === 'clear') {
+          cliOutput.innerHTML = '';
+        } else if (commands[inputVal]) {
+          const resLine = document.createElement('p');
+          resLine.className = 'text-gold-soft ml-2';
+          resLine.innerHTML = commands[inputVal];
+          cliOutput.appendChild(resLine);
+        } else {
+          const errLine = document.createElement('p');
+          errLine.className = 'text-red-400 ml-2';
+          errLine.textContent = `Command not recognized: '${inputVal}'. Type 'help'.`;
+          cliOutput.appendChild(errLine);
+        }
+
+        cliInput.value = '';
+        cliOutput.scrollTop = cliOutput.scrollHeight;
       }
     });
   </script>
